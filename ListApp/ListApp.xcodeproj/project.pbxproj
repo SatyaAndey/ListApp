@@ -7,6 +7,15 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
+		52749E8F2555472B00F2A669 /* Constants.swift in Sources */ = {isa = PBXBuildFile; fileRef = 52749E8E2555472B00F2A669 /* Constants.swift */; };
+		52749E912555477400F2A669 /* Utility.swift in Sources */ = {isa = PBXBuildFile; fileRef = 52749E902555477400F2A669 /* Utility.swift */; };
+		52749EA62555510E00F2A669 /* ListViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 52749E9F2555510E00F2A669 /* ListViewController.swift */; };
+		52749EA72555510E00F2A669 /* ListInteractor.swift in Sources */ = {isa = PBXBuildFile; fileRef = 52749EA02555510E00F2A669 /* ListInteractor.swift */; };
+		52749EA82555510E00F2A669 /* ListPresenter.swift in Sources */ = {isa = PBXBuildFile; fileRef = 52749EA12555510E00F2A669 /* ListPresenter.swift */; };
+		52749EA92555510E00F2A669 /* ListWorker.swift in Sources */ = {isa = PBXBuildFile; fileRef = 52749EA32555510E00F2A669 /* ListWorker.swift */; };
+		52749EAA2555510E00F2A669 /* ListRouter.swift in Sources */ = {isa = PBXBuildFile; fileRef = 52749EA42555510E00F2A669 /* ListRouter.swift */; };
+		52749EAB2555510E00F2A669 /* ListModels.swift in Sources */ = {isa = PBXBuildFile; fileRef = 52749EA52555510E00F2A669 /* ListModels.swift */; };
+		52749EAD2555513700F2A669 /* ListTableViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 52749EAC2555513700F2A669 /* ListTableViewCell.swift */; };
 		5288EC9325552D0500F3DABA /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5288EC9225552D0500F3DABA /* AppDelegate.swift */; };
 		5288EC9C25552D0900F3DABA /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 5288EC9B25552D0900F3DABA /* Assets.xcassets */; };
 		5288EC9F25552D0900F3DABA /* LaunchScreen.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 5288EC9D25552D0900F3DABA /* LaunchScreen.storyboard */; };
@@ -32,6 +41,15 @@
 /* End PBXContainerItemProxy section */
 
 /* Begin PBXFileReference section */
+		52749E8E2555472B00F2A669 /* Constants.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Constants.swift; sourceTree = "<group>"; };
+		52749E902555477400F2A669 /* Utility.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Utility.swift; sourceTree = "<group>"; };
+		52749E9F2555510E00F2A669 /* ListViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ListViewController.swift; sourceTree = "<group>"; };
+		52749EA02555510E00F2A669 /* ListInteractor.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ListInteractor.swift; sourceTree = "<group>"; };
+		52749EA12555510E00F2A669 /* ListPresenter.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ListPresenter.swift; sourceTree = "<group>"; };
+		52749EA32555510E00F2A669 /* ListWorker.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ListWorker.swift; sourceTree = "<group>"; };
+		52749EA42555510E00F2A669 /* ListRouter.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ListRouter.swift; sourceTree = "<group>"; };
+		52749EA52555510E00F2A669 /* ListModels.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ListModels.swift; sourceTree = "<group>"; };
+		52749EAC2555513700F2A669 /* ListTableViewCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ListTableViewCell.swift; sourceTree = "<group>"; };
 		5288EC8F25552D0500F3DABA /* ListApp.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = ListApp.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		5288EC9225552D0500F3DABA /* AppDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppDelegate.swift; sourceTree = "<group>"; };
 		5288EC9B25552D0900F3DABA /* Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Assets.xcassets; sourceTree = "<group>"; };
@@ -70,6 +88,45 @@
 /* End PBXFrameworksBuildPhase section */
 
 /* Begin PBXGroup section */
+		52749E8C2555471400F2A669 /* Controllers */ = {
+			isa = PBXGroup;
+			children = (
+				52749E9E2555510E00F2A669 /* ListController */,
+			);
+			path = Controllers;
+			sourceTree = "<group>";
+		};
+		52749E8D2555471400F2A669 /* HelperClasses */ = {
+			isa = PBXGroup;
+			children = (
+				52749E8E2555472B00F2A669 /* Constants.swift */,
+				52749E902555477400F2A669 /* Utility.swift */,
+			);
+			path = HelperClasses;
+			sourceTree = "<group>";
+		};
+		52749E9E2555510E00F2A669 /* ListController */ = {
+			isa = PBXGroup;
+			children = (
+				52749E9F2555510E00F2A669 /* ListViewController.swift */,
+				52749EA02555510E00F2A669 /* ListInteractor.swift */,
+				52749EA12555510E00F2A669 /* ListPresenter.swift */,
+				52749EA32555510E00F2A669 /* ListWorker.swift */,
+				52749EA42555510E00F2A669 /* ListRouter.swift */,
+				52749EA52555510E00F2A669 /* ListModels.swift */,
+				52749EA22555510E00F2A669 /* ListCell */,
+			);
+			path = ListController;
+			sourceTree = "<group>";
+		};
+		52749EA22555510E00F2A669 /* ListCell */ = {
+			isa = PBXGroup;
+			children = (
+				52749EAC2555513700F2A669 /* ListTableViewCell.swift */,
+			);
+			path = ListCell;
+			sourceTree = "<group>";
+		};
 		5288EC8625552D0500F3DABA = {
 			isa = PBXGroup;
 			children = (
@@ -93,6 +150,8 @@
 		5288EC9125552D0500F3DABA /* ListApp */ = {
 			isa = PBXGroup;
 			children = (
+				52749E8C2555471400F2A669 /* Controllers */,
+				52749E8D2555471400F2A669 /* HelperClasses */,
 				5288EC9225552D0500F3DABA /* AppDelegate.swift */,
 				5288EC9B25552D0900F3DABA /* Assets.xcassets */,
 				5288EC9D25552D0900F3DABA /* LaunchScreen.storyboard */,
@@ -249,7 +308,16 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				52749EAA2555510E00F2A669 /* ListRouter.swift in Sources */,
+				52749EA92555510E00F2A669 /* ListWorker.swift in Sources */,
+				52749EA72555510E00F2A669 /* ListInteractor.swift in Sources */,
+				52749EAB2555510E00F2A669 /* ListModels.swift in Sources */,
 				5288EC9325552D0500F3DABA /* AppDelegate.swift in Sources */,
+				52749E8F2555472B00F2A669 /* Constants.swift in Sources */,
+				52749EA62555510E00F2A669 /* ListViewController.swift in Sources */,
+				52749EA82555510E00F2A669 /* ListPresenter.swift in Sources */,
+				52749E912555477400F2A669 /* Utility.swift in Sources */,
+				52749EAD2555513700F2A669 /* ListTableViewCell.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
