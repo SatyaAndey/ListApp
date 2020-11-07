@@ -14,7 +14,7 @@ import UIKit
 
 protocol ListDisplayLogic: class
 {
-  func displaySomething(viewModel: List.Something.ViewModel)
+  func displayApiListeItemsResponse(viewModel: [List.APIList.ViewModel])
 }
 
 class ListViewController: UIViewController, ListDisplayLogic
@@ -23,7 +23,7 @@ class ListViewController: UIViewController, ListDisplayLogic
   var router: (NSObjectProtocol & ListRoutingLogic & ListDataPassing)?
   var listView: UITableView!
   var refreshControl = UIRefreshControl()
-    
+  var arrListItems = [List.APIList.ViewModel]()
 
   // MARK: Object lifecycle
     
@@ -74,24 +74,31 @@ class ListViewController: UIViewController, ListDisplayLogic
   override func viewDidLoad()
   {
     super.viewDidLoad()
+    setup()
     self.view.backgroundColor = UIColor.white
-
-    doSomething()
+    Utility.sharedInstance.indicatorStartAnimating()
+    fetchListItemsApi()
+    NotificationCenter.default.addObserver(self, selector: #selector(orientationChanged), name: UIDevice.orientationDidChangeNotification, object: nil)
   }
   
-  // MARK: Do something
+  // MARK: Do fetchListItemsApi
   
   //@IBOutlet weak var nameTextField: UITextField!
   
-  func doSomething()
+  func fetchListItemsApi()
   {
-    let request = List.Something.Request()
-    interactor?.doSomething(request: request)
+    let request = List.APIList.Request()
+    interactor?.fetchApiListitems(request: request)
   }
   
-  func displaySomething(viewModel: List.Something.ViewModel)
+  func displayApiListeItemsResponse(viewModel: [List.APIList.ViewModel])
   {
-    //nameTextField.text = viewModel.name
+    DispatchQueue.main.async {
+        self.arrListItems = viewModel
+        self.refreshControl.endRefreshing()
+        self.listView.reloadData()
+    }
+    
   }
 }
 
@@ -133,7 +140,7 @@ extension ListViewController {
     }
     
    @objc func refreshListView() {
-        
+        fetchListItemsApi()
     }
 }
 
@@ -142,12 +149,19 @@ extension ListViewController {
 
 extension ListViewController : UITableViewDelegate, UITableViewDataSource {
     func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
-        return 100
+        return self.arrListItems.count
     }
     func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
         let cell = listView.dequeueReusableCell(withIdentifier: "ListTableViewCell") as? ListTableViewCell ?? ListTableViewCell()
-        cell.configureData(indexPath)
+        cell.configureData(arrListItems[indexPath.row])
         return cell
     }
    
+}
+
+
+extension ListViewController {
+   @objc func orientationChanged() {
+        self.listView.reloadData()
+    }
 }
