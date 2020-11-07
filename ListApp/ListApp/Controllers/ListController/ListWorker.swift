@@ -15,16 +15,14 @@ import  Alamofire
 
 class ListWorker
 {
-  func doSomeWork()
-  {
-  }
+  
     func fetchListViewItems(_ request: List.APIList.Request, completionhandler: @escaping(_ response: List.APIList.Response?) -> Void) {
         if !Utility.sharedInstance.isNetworkReachable {
             completionhandler(nil)
             Utility.sharedInstance.indicatorStopAnimating()
             DispatchQueue.main.asyncAfter(deadline: DispatchTime.now() + 1) {
                 Utility.sharedInstance.showNetWorknotAvailableMessage()
-
+                
             }
             return
         }
@@ -44,22 +42,22 @@ class ListWorker
                 Utility.sharedInstance.indicatorStopAnimating()
             }
         }
-         
-         task.resume()
+        
+        task.resume()
         
         /*
-        
-        Alamofire.request(BASE_URL, method: .get, parameters: nil,encoding: JSONEncoding, headers: nil).responseJSON {
-        response in
-          switch response.result {
-                        case .success:
-                            print(response)
-
-                            break
-                        case .failure(let error):
-
-                            print(error)
-                        }
-        }*/
+         
+         Alamofire.request(BASE_URL, method: .get, parameters: nil,encoding: JSONEncoding, headers: nil).responseJSON {
+         response in
+         switch response.result {
+         case .success:
+         print(response)
+         
+         break
+         case .failure(let error):
+         
+         print(error)
+         }
+         }*/
     }
 }
