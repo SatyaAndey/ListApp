@@ -30,6 +30,6 @@ class ListPresenter: ListPresentationLogic
         (self.viewController as? UIViewController)?.navigationItem.title = response.title ?? ""
 
     }
-    viewController?.displayApiListeItemsResponse(viewModel: response.rows ?? [List.APIList.ViewModel()])
+    viewController?.displayApiListeItemsResponse(viewModel: response.rows ?? [List.APIList.ViewModel]())
   }
 }
