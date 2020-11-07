@@ -19,89 +19,91 @@ protocol ListDisplayLogic: class
 
 class ListViewController: UIViewController, ListDisplayLogic
 {
-  var interactor: ListBusinessLogic?
-  var router: (NSObjectProtocol & ListRoutingLogic & ListDataPassing)?
-  var listView: UITableView!
-  var lblNodataRepresentation : UILabel!
-  var refreshControl = UIRefreshControl()
-  var arrListItems = [List.APIList.ViewModel]()
-
-  // MARK: Object lifecycle
+    var interactor: ListBusinessLogic?
+    var router: (NSObjectProtocol & ListRoutingLogic & ListDataPassing)?
+    var listView: UITableView!
+    var lblNodataRepresentation : UILabel!
+    var refreshControl = UIRefreshControl()
+    var arrListItems = [List.APIList.ViewModel]()
     
-  
-  override init(nibName nibNameOrNil: String?, bundle nibBundleOrNil: Bundle?)
-  {
-    super.init(nibName: nibNameOrNil, bundle: nibBundleOrNil)
-    configureUITableviewUI()
-    setup()
-  }
-  
-  required init?(coder aDecoder: NSCoder)
-  {
-    super.init(coder: aDecoder)
-    setup()
-  }
-  
-  // MARK: Setup
-  
-  private func setup()
-  {
-    let viewController = self
-    let interactor = ListInteractor()
-    let presenter = ListPresenter()
-    let router = ListRouter()
-    viewController.interactor = interactor
-    viewController.router = router
-    interactor.presenter = presenter
-    presenter.viewController = viewController
-    router.viewController = viewController
-    router.dataStore = interactor
-  }
-  
-  // MARK: Routing
-  
-  override func prepare(for segue: UIStoryboardSegue, sender: Any?)
-  {
-    if let scene = segue.identifier {
-      let selector = NSSelectorFromString("routeTo\(scene)WithSegue:")
-      if let router = router, router.responds(to: selector) {
-        router.perform(selector, with: segue)
-      }
-    }
-  }
-  
-  // MARK: View lifecycle
-  
-  override func viewDidLoad()
-  {
-    super.viewDidLoad()
-    setup()
-    self.view.backgroundColor = UIColor.white
-    Utility.sharedInstance.indicatorStartAnimating()
-    fetchListItemsApi()
-    NotificationCenter.default.addObserver(self, selector: #selector(orientationChanged), name: UIDevice.orientationDidChangeNotification, object: nil)
-  }
-  
-  // MARK: Do fetchListItemsApi
-  
-  //@IBOutlet weak var nameTextField: UITextField!
-  
-  func fetchListItemsApi()
-  {
-    let request = List.APIList.Request()
-    interactor?.fetchApiListitems(request: request)
-  }
-  
-  func displayApiListeItemsResponse(viewModel: [List.APIList.ViewModel])
-  {
-      DispatchQueue.main.async {
-        self.refreshControl.endRefreshing()
-        self.lblNodataRepresentation.isHidden = viewModel.count != 0
-        self.arrListItems = viewModel
-        self.listView.reloadData()
+    // MARK: Object lifecycle
+    
+    
+    override init(nibName nibNameOrNil: String?, bundle nibBundleOrNil: Bundle?)
+    {
+        super.init(nibName: nibNameOrNil, bundle: nibBundleOrNil)
+        configureUITableviewUI()
+        setup()
     }
     
-  }
+    required init?(coder aDecoder: NSCoder)
+    {
+        super.init(coder: aDecoder)
+        setup()
+    }
+    
+    // MARK: Setup
+    
+    private func setup()
+    {
+        let viewController = self
+        let interactor = ListInteractor()
+        let presenter = ListPresenter()
+        let router = ListRouter()
+        viewController.interactor = interactor
+        viewController.router = router
+        interactor.presenter = presenter
+        presenter.viewController = viewController
+        router.viewController = viewController
+        router.dataStore = interactor
+    }
+    
+    // MARK: Routing
+    
+    override func prepare(for segue: UIStoryboardSegue, sender: Any?)
+    {
+        if let scene = segue.identifier {
+            let selector = NSSelectorFromString("routeTo\(scene)WithSegue:")
+            if let router = router, router.responds(to: selector) {
+                router.perform(selector, with: segue)
+            }
+        }
+    }
+    
+    // MARK: View lifecycle
+    
+    override func viewDidLoad()
+    {
+        super.viewDidLoad()
+        setup()
+        self.view.backgroundColor = UIColor.white
+        Utility.sharedInstance.indicatorStartAnimating()
+        fetchListItemsApi()
+        NotificationCenter.default.addObserver(self, selector: #selector(orientationChanged), name: UIDevice.orientationDidChangeNotification, object: nil)
+    }
+    
+    
+    
+    //@IBOutlet weak var nameTextField: UITextField!
+    
+    // MARK: Do fetchListItemsApi
+    
+    func fetchListItemsApi()
+    {
+        let request = List.APIList.Request()
+        interactor?.fetchApiListitems(request: request, isFromTestCase: false)
+    }
+    
+    func displayApiListeItemsResponse(viewModel: [List.APIList.ViewModel])
+    {
+        DispatchQueue.main.async {
+            self.refreshControl.endRefreshing()
+            self.lblNodataRepresentation.isHidden = viewModel.count != 0
+            self.arrListItems = viewModel
+            self.listView.reloadData()
+        }
+        
+    }
 }
 
 
@@ -158,12 +160,14 @@ extension ListViewController {
         
     }
     
+    // adding refresh control to list view
     func addRefreshControlToListView() {
         listView.refreshControl = refreshControl
         refreshControl.addTarget(self, action: #selector(refreshListView), for: .valueChanged)
     }
     
-   @objc func refreshListView() {
+    // fetching api items on listview refresh
+    @objc func refreshListView() {
         fetchListItemsApi()
     }
 }
@@ -180,12 +184,12 @@ extension ListViewController : UITableViewDelegate, UITableViewDataSource {
         cell.configureData(arrListItems[indexPath.row])
         return cell
     }
-   
+    
 }
 
-
+// MARK: Orientation observer
 extension ListViewController {
-   @objc func orientationChanged() {
+    @objc func orientationChanged() {
         self.listView.reloadData()
     }
 }
