@@ -19,17 +19,16 @@ protocol ListPresentationLogic
 
 class ListPresenter: ListPresentationLogic
 {
-  weak var viewController: ListDisplayLogic?
-  
-  // MARK: Do something
-  
-  func presentWithListitemsApiResonse(response: List.APIList.Response)
-  {
+    weak var viewController: ListDisplayLogic?
     
-    DispatchQueue.main.async {
-        (self.viewController as? UIViewController)?.navigationItem.title = response.title ?? ""
-
+    // MARK: Present Api list items
+    
+    func presentWithListitemsApiResonse(response: List.APIList.Response)
+    {
+        
+        DispatchQueue.main.async {
+            (self.viewController as? UIViewController)?.navigationItem.title = response.title ?? ""
+        }
+        viewController?.displayApiListeItemsResponse(viewModel: response.rows ?? [List.APIList.ViewModel]())
     }
-    viewController?.displayApiListeItemsResponse(viewModel: response.rows ?? [List.APIList.ViewModel]())
-  }
 }

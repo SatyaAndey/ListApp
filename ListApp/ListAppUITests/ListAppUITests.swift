@@ -38,6 +38,6 @@ class ListAppUITests: XCTestCase {
             measure(metrics: [XCTOSSignpostMetric.applicationLaunch]) {
                 XCUIApplication().launch()
             }
-        }
+                    }
     }
 }

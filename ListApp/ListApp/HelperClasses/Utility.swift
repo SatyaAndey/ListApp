@@ -16,7 +16,9 @@ class Utility: NSObject {
     static var sharedInstance = Utility()
     var vwActivity = UIView(frame: UIScreen.main.bounds)
     private var reachabilityManager = NetworkReachabilityManager(host: "https://www.google.com/")
-
+    
+    // network status
+    
     var isNetworkReachable : Bool {
         get {
             if reachabilityManager?.networkReachabilityStatus == .notReachable || reachabilityManager?.networkReachabilityStatus == .unknown {
@@ -25,6 +27,8 @@ class Utility: NSObject {
             return true
         }
     }
+    
+    // loader configuration
     
     func indicatorStartAnimating() {
         DispatchQueue.main.async {
@@ -50,7 +54,7 @@ class Utility: NSObject {
                 activityIndicator.startAnimating()
             }
         }
-       
+        
         
     }
     func indicatorStopAnimating() {

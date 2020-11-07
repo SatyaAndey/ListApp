@@ -14,26 +14,24 @@ import UIKit
 
 enum List
 {
-  // MARK: Use cases
-  
-  enum APIList
-  {
-    struct Request: Encodable
+    // MARK: Use cases
+    
+    enum APIList
     {
+        struct Request: Encodable
+        {
+        }
+        struct Response: Codable
+        {
+            var title: String?
+            
+            var rows: [ViewModel]?
+        }
+        struct ViewModel: Codable
+        {
+            var title: String?
+            var description: String?
+            var imageHref: String?
+        }
     }
-    struct Response: Codable
-    {
-        var title: String?
-        
-        var rows: [ViewModel]?
-    }
-    struct ViewModel: Codable
-    {
-        var title: String?
-        var description: String?
-        var imageHref: String?
-        
-        
-    }
-  }
 }
