@@ -22,6 +22,7 @@ class ListViewController: UIViewController, ListDisplayLogic
   var interactor: ListBusinessLogic?
   var router: (NSObjectProtocol & ListRoutingLogic & ListDataPassing)?
   var listView: UITableView!
+  var lblNodataRepresentation : UILabel!
   var refreshControl = UIRefreshControl()
   var arrListItems = [List.APIList.ViewModel]()
 
@@ -93,9 +94,10 @@ class ListViewController: UIViewController, ListDisplayLogic
   
   func displayApiListeItemsResponse(viewModel: [List.APIList.ViewModel])
   {
-    DispatchQueue.main.async {
-        self.arrListItems = viewModel
+      DispatchQueue.main.async {
         self.refreshControl.endRefreshing()
+        self.lblNodataRepresentation.isHidden = viewModel.count != 0
+        self.arrListItems = viewModel
         self.listView.reloadData()
     }
     
@@ -116,6 +118,7 @@ extension ListViewController {
         listView.estimatedRowHeight = 3000
         listView.separatorStyle = .singleLine
         listView.separatorInset = UIEdgeInsets(top: 0, left: 15, bottom: 0, right: 15)
+        listView.tableFooterView = UIView()
         
         //configure autolayouts
         listView.translatesAutoresizingMaskIntoConstraints = false
@@ -131,6 +134,27 @@ extension ListViewController {
         
         //registering tablecell
         listView.register(ListTableViewCell.classForCoder(), forCellReuseIdentifier: "ListTableViewCell")
+        configureNodatalabeUI()
+        
+    }
+    
+    func configureNodatalabeUI() {
+        lblNodataRepresentation = UILabel(frame: CGRect.zero)
+        lblNodataRepresentation.numberOfLines = 0
+        lblNodataRepresentation.textAlignment = .center
+        lblNodataRepresentation.font = UIFont.systemFont(ofSize: FONT_SIZE_TITLE_LABEL)
+        lblNodataRepresentation.textColor = .black
+        self.view.addSubview(lblNodataRepresentation)
+        lblNodataRepresentation.isHidden = true
+        lblNodataRepresentation.text = NO_DATA_TEXT
+        
+        //configure autolayouts
+        lblNodataRepresentation.translatesAutoresizingMaskIntoConstraints = false
+        NSLayoutConstraint(item: lblNodataRepresentation, attribute: .leading, relatedBy: .equal, toItem: self.view, attribute: .leading, multiplier: 1.0, constant: 20).isActive = true
+        NSLayoutConstraint(item: lblNodataRepresentation, attribute: .trailing, relatedBy: .equal, toItem: self.view, attribute: .trailing, multiplier: 1.0, constant: -20).isActive = true
+        NSLayoutConstraint(item: self.view, attribute: .centerX, relatedBy: .equal, toItem: self.lblNodataRepresentation, attribute: .centerX, multiplier: 1.0, constant: 0).isActive = true
+        NSLayoutConstraint(item: self.view, attribute: .centerY, relatedBy: .equal, toItem: self.lblNodataRepresentation, attribute: .centerY, multiplier: 1.0, constant: 0).isActive = true
+        
         
     }
     
