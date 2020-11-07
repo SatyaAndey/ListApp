@@ -10,11 +10,21 @@ import Foundation
 import Network
 import CoreFoundation
 import NVActivityIndicatorView
+import Alamofire
 
 class Utility: NSObject {
     static var sharedInstance = Utility()
     var vwActivity = UIView(frame: UIScreen.main.bounds)
-    var isReachable = false
+    private var reachabilityManager = NetworkReachabilityManager(host: "https://www.google.com/")
+
+    var isNetworkReachable : Bool {
+        get {
+            if reachabilityManager?.networkReachabilityStatus == .notReachable || reachabilityManager?.networkReachabilityStatus == .unknown {
+                return false
+            }
+            return true
+        }
+    }
     
     func indicatorStartAnimating() {
         DispatchQueue.main.async {
@@ -48,5 +58,14 @@ class Utility: NSObject {
             self.vwActivity.removeFromSuperview()
         }
         
+    }
+    
+    func registerNetworkStatusObserver() {
+        reachabilityManager?.startListening()
+    }
+    func showNetWorknotAvailableMessage() {
+        let alertontroller = UIAlertController(title: nil, message: NO_NETWORK_MESSAGE, preferredStyle: .alert)
+        alertontroller.addAction(UIAlertAction(title: "OK", style: .default, handler: nil))
+        (UIApplication.shared.delegate as? AppDelegate)?.window?.rootViewController?.present(alertontroller, animated: true, completion: nil)
     }
 }

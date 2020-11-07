@@ -19,7 +19,15 @@ class ListWorker
   {
   }
     func fetchListViewItems(_ request: List.APIList.Request, completionhandler: @escaping(_ response: List.APIList.Response?) -> Void) {
-//        Utility.sharedInstance.indicatorStartAnimating()
+        if !Utility.sharedInstance.isNetworkReachable {
+            completionhandler(nil)
+            Utility.sharedInstance.indicatorStopAnimating()
+            DispatchQueue.main.asyncAfter(deadline: DispatchTime.now() + 1) {
+                Utility.sharedInstance.showNetWorknotAvailableMessage()
+
+            }
+            return
+        }
         let request = try? URLRequest(url: URL(string: BASE_URL)!, method: .get)
         let task = URLSession(configuration: .default).dataTask(with: request!) { ( data, response , error) in
             do {
