@@ -7,6 +7,7 @@
 //
 
 import UIKit
+import Kingfisher
 
 class ListTableViewCell: UITableViewCell {
     
@@ -42,14 +43,14 @@ class ListTableViewCell: UITableViewCell {
         configureImageUI()
         configureTitleLabelUI()
         configureDescriptionLabelUI()
-        
-        
     }
     
     func configureImageUI() {
         imgView = UIImageView()
-        imgView.backgroundColor = UIColor.red
+        imgView.backgroundColor = UIColor.clear
         self.contentView.addSubview(imgView)
+        imgView.contentMode = .scaleAspectFill
+        imgView.clipsToBounds = true
         
         //configure autolayouts for imageview
         imgView.translatesAutoresizingMaskIntoConstraints = false
@@ -104,20 +105,20 @@ class ListTableViewCell: UITableViewCell {
         
     }
     
-    func configureData(_ indexPath: IndexPath) {
-        self.lblTitile.text = "Title"
-        self.lblDescription.text = "Description"
-        if indexPath.row % 3 == 0 {
-            self.lblTitile.text = "Lorem Ipsum is simply dummy text of the printing and typesetting industry. Lorem Ipsum has been the industry's standard dummy text ever since the 1500s"
+    func configureData(_ model: List.APIList.ViewModel) {
+        self.lblTitile.text = model.title ?? ""
+        self.lblDescription.text = model.description ?? ""
+        if let imgUrl = model.imageHref, let url = URL(string: imgUrl) {
+            self.imgView.kf.indicatorType = .activity
+            self.imgView.kf.setImage(with: url, placeholder:  UIImage(named: "placeholder"), options: nil, progressBlock: nil, completionHandler: { ( _ ,  _,  _,  _) in
+                DispatchQueue.main.async {
+                    self.imgView.layer.cornerRadius = self.imgView.frame.size.width / 2
+                    
+                }
+            })
+        } else {
+            self.imgView.image = UIImage(named: "placeholder")
         }
-        if indexPath.row % 5 == 0 {
-            self.lblDescription.text = "Lorem Ipsum is simply dummy text of the printing and typesetting industry. Lorem Ipsum has been the industry's standard dummy text ever since the 1500s"
-        }
-        
-        if indexPath.row % 7 == 0 {
-            self.lblTitile.text = "Lorem Ipsum is simply dummy text of the printing and typesetting industry. Lorem Ipsum has been the industry's standard dummy text ever since the 1500s"
-                   self.lblDescription.text = "Lorem Ipsum is simply dummy text of the printing and typesetting industry. Lorem Ipsum has been the industry's standard dummy text ever since the 1500s"
-               }
     }
 
 }

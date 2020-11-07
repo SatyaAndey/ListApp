@@ -11,10 +11,47 @@
 //
 
 import UIKit
+import  Alamofire
 
 class ListWorker
 {
   func doSomeWork()
   {
   }
+    func fetchListViewItems(_ request: List.APIList.Request, completionhandler: @escaping(_ response: List.APIList.Response?) -> Void) {
+//        Utility.sharedInstance.indicatorStartAnimating()
+        let request = try? URLRequest(url: URL(string: BASE_URL)!, method: .get)
+        let task = URLSession(configuration: .default).dataTask(with: request!) { ( data, response , error) in
+            do {
+                if let stringResponse =  String(data: data!, encoding: .ascii)  {
+                    let data = stringResponse.data(using: .utf8)
+                    let dataModel =  try JSONDecoder().decode( List.APIList.Response.self, from: data!)
+                    completionhandler(dataModel)
+                } else {
+                    completionhandler(nil)
+                }
+                Utility.sharedInstance.indicatorStopAnimating()
+            } catch _ {
+                completionhandler(nil)
+                Utility.sharedInstance.indicatorStopAnimating()
+            }
+        }
+         
+         task.resume()
+        
+        /*
+        
+        Alamofire.request(BASE_URL, method: .get, parameters: nil,encoding: JSONEncoding, headers: nil).responseJSON {
+        response in
+          switch response.result {
+                        case .success:
+                            print(response)
+
+                            break
+                        case .failure(let error):
+
+                            print(error)
+                        }
+        }*/
+    }
 }

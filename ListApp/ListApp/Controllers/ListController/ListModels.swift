@@ -16,16 +16,24 @@ enum List
 {
   // MARK: Use cases
   
-  enum Something
+  enum APIList
   {
-    struct Request
+    struct Request: Encodable
     {
     }
-    struct Response
+    struct Response: Codable
     {
+        var title: String?
+        
+        var rows: [ViewModel]?
     }
-    struct ViewModel
+    struct ViewModel: Codable
     {
+        var title: String?
+        var description: String?
+        var imageHref: String?
+        
+        
     }
   }
 }
