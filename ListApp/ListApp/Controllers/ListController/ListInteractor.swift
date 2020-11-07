@@ -14,7 +14,7 @@ import UIKit
 
 protocol ListBusinessLogic
 {
-  func doSomething(request: List.Something.Request)
+  func fetchApiListitems(request: List.APIList.Request)
 }
 
 protocol ListDataStore
@@ -30,12 +30,18 @@ class ListInteractor: ListBusinessLogic, ListDataStore
   
   // MARK: Do something
   
-  func doSomething(request: List.Something.Request)
-  {
-    worker = ListWorker()
-    worker?.doSomeWork()
-    
-    let response = List.Something.Response()
-    presenter?.presentSomething(response: response)
-  }
+    func fetchApiListitems(request: List.APIList.Request) {
+        worker = ListWorker()
+        worker?.fetchListViewItems(request, completionhandler: { (response) in
+            if let unWrappedResponse = response {
+                self.presenter?.presentWithListitemsApiResonse(response: unWrappedResponse)
+            } else {
+                let response = List.APIList.Response()
+                self.presenter?.presentWithListitemsApiResonse(response: response)
+            }
+        })
+        
+        
+    }
+  
 }

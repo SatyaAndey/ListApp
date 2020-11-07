@@ -14,7 +14,7 @@ import UIKit
 
 protocol ListPresentationLogic
 {
-  func presentSomething(response: List.Something.Response)
+  func presentWithListitemsApiResonse(response: List.APIList.Response)
 }
 
 class ListPresenter: ListPresentationLogic
@@ -23,9 +23,13 @@ class ListPresenter: ListPresentationLogic
   
   // MARK: Do something
   
-  func presentSomething(response: List.Something.Response)
+  func presentWithListitemsApiResonse(response: List.APIList.Response)
   {
-    let viewModel = List.Something.ViewModel()
-    viewController?.displaySomething(viewModel: viewModel)
+    
+    DispatchQueue.main.async {
+        (self.viewController as? UIViewController)?.navigationItem.title = response.title ?? ""
+
+    }
+    viewController?.displayApiListeItemsResponse(viewModel: response.rows ?? [List.APIList.ViewModel()])
   }
 }
