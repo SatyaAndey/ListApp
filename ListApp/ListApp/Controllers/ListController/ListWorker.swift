@@ -26,24 +26,41 @@ class ListWorker
             }
             return
         }
-        let request = try? URLRequest(url: URL(string: BASE_URL)!, method: .get)
-        let task = URLSession(configuration: .default).dataTask(with: request!) { ( data, response , error) in
-            do {
-                if let stringResponse =  String(data: data!, encoding: .ascii)  {
-                    let data = stringResponse.data(using: .utf8)
-                    let dataModel =  try JSONDecoder().decode( List.APIList.Response.self, from: data!)
-                    completionhandler(dataModel)
-                } else {
-                    completionhandler(nil)
+        if let url = URL(string: BASE_URL) {
+            if let request = try? URLRequest(url: url, method: .get) {
+                let task = URLSession(configuration: .default).dataTask(with: request) { [weak self] ( data, response , error) in
+                    do {
+                        if let dataUnWrapped = data {
+                            if let stringResponse =  String(data: dataUnWrapped, encoding: .ascii)  {
+                                if let dataLocal = stringResponse.data(using: .utf8) {
+                                    let dataModel =  try JSONDecoder().decode( List.APIList.Response.self, from: dataLocal)
+                                    completionhandler(dataModel)
+                                } else {
+                                    completionhandler(nil)
+                                }
+                                
+                            } else {
+                                completionhandler(nil)
+                            }
+                        } else {
+                            completionhandler(nil)
+                        }
+                        Utility.sharedInstance.indicatorStopAnimating()
+                    } catch _ {
+                        completionhandler(nil)
+                        Utility.sharedInstance.indicatorStopAnimating()
+                    }
                 }
-                Utility.sharedInstance.indicatorStopAnimating()
-            } catch _ {
+                
+                task.resume()
+            } else {
                 completionhandler(nil)
                 Utility.sharedInstance.indicatorStopAnimating()
             }
+        } else {
+            completionhandler(nil)
+            Utility.sharedInstance.indicatorStopAnimating()
         }
-        
-        task.resume()
         
         /*
          
