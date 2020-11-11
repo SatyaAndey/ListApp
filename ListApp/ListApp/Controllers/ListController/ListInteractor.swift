@@ -37,15 +37,14 @@ class ListInteractor: ListBusinessLogic, ListDataStore
             return
         }
         worker = ListWorker()
-        worker?.fetchListViewItems(request, completionhandler: { (response) in
-            DispatchQueue.main.async {
+        worker?.fetchListViewItems(request, completionhandler: { [weak self] (response) in
+            guard let self = self else {return}
                 if let unWrappedResponse = response {
                     self.presenter?.presentWithListitemsApiResonse(response: unWrappedResponse)
                 } else {
                     let response = List.APIList.Response()
                     self.presenter?.presentWithListitemsApiResonse(response: response)
                 }
-            }
         })
     }
     

@@ -32,8 +32,8 @@ class ListViewController: UIViewController, ListDisplayLogic
     override init(nibName nibNameOrNil: String?, bundle nibBundleOrNil: Bundle?)
     {
         super.init(nibName: nibNameOrNil, bundle: nibBundleOrNil)
-        configureUITableviewUI()
         setup()
+        configureUITableviewUI()
     }
     
     required init?(coder aDecoder: NSCoder)
@@ -75,7 +75,6 @@ class ListViewController: UIViewController, ListDisplayLogic
     override func viewDidLoad()
     {
         super.viewDidLoad()
-        setup()
         self.view.backgroundColor = UIColor.white
         Utility.sharedInstance.indicatorStartAnimating()
         fetchListItemsApi()
